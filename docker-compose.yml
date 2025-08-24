@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15         # PostgreSQL のバージョン
+    container_name: wiki_postgres
+    environment:
+      POSTGRES_DB: wiki_db     # データベース名
+      POSTGRES_USER: wiki_user # ユーザー名
+      POSTGRES_PASSWORD: wiki_pass # パスワード
+    ports:
+      - "5432:5432"            # ローカルの 5432 にマッピング
+    volumes:
+      - postgres_data:/var/lib/postgresql/data # データ永続化
+    restart: always
+
+volumes:
+  postgres_data:
