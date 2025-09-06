@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--MyBatisを使用するxmlファイルであることを宣言 -->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.example.wiki.todo.mapper.TodoMapper">
+
+    <!-- Todo一覧表示 - 全件検索 -->
+    <select id="getAllTodoList" resultType="com.example.wiki.todo.dto.TodoDto">
+        SELECT 
+            t.id
+            ,t.title
+            ,t.completed
+        FROM app.todos t
+        ORDER BY id DESC
+    </select>
+    
+    <!-- Todo1件登録 -->
+    <insert id="insertTodo">
+        INSERT INTO app.todos (title, completed) VALUES (#{title}, #{completed}) RETURNING id
+    </insert>
+    
+    <!-- Todo更新（完了↔未完了） -->
+    <update id="updateTodo" parameterType="com.example.wiki.todo.dto.TodoDto">
+        UPDATE app.todos
+            SET title = #{title}, completed = #{completed}
+        WHERE id = #{id}
+    </update>
+
+</mapper>
