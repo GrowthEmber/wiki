@@ -86,5 +86,9 @@ public class TodoService {
         todoMapper.updateTodo(todoDto);
         return todoDto;
     }
+    
+    public void updatePriorities(List<TodoDto> todoDto) {
+        todoMapper.updatePriorities(todoDto);
+    }
 
 }

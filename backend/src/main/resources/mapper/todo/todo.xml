@@ -12,6 +12,7 @@
         SELECT 
             t.id
             ,t.title
+            ,t.priority
             ,t.completed
         FROM app.todos t
         ORDER BY id DESC
@@ -19,7 +20,8 @@
     
     <!-- Todo1件登録 -->
     <insert id="insertTodo">
-        INSERT INTO app.todos (title, completed) VALUES (#{title}, #{completed}) RETURNING id
+        INSERT INTO app.todos (title, priority, completed) 
+        VALUES (#{title}, #{priotiry}, #{completed}) RETURNING id
     </insert>
     
     <!-- Todo更新（完了↔未完了） -->
@@ -27,6 +29,15 @@
         UPDATE app.todos
             SET title = #{title}, completed = #{completed}
         WHERE id = #{id}
+    </update>
+
+    <!-- Todo優先度更新 -->
+    <update id="updatePriorities" parameterType="java.util.List">
+      <foreach collection="todoDto" item="todo" separator=";">
+        UPDATE app.todos
+        SET priority = #{todo.priority}
+        WHERE id = #{todo.id}
+      </foreach>
     </update>
 
 </mapper>

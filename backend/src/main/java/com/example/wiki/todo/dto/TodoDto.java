@@ -11,5 +11,6 @@ public class TodoDto {
     
     private Long id;
     private String title;
+    private String priority;
     private boolean completed;
 }

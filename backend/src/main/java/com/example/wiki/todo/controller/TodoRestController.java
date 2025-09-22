@@ -36,4 +36,9 @@ public class TodoRestController {
         todoDto.setId(id);
         return todoService.updateTodo(todoDto);
     }
+    
+    @PutMapping("/reorder")
+    public void reorderTodos(@RequestBody List<TodoDto> todos) {
+        todoService.updatePriorities(todos);
+    }
 }

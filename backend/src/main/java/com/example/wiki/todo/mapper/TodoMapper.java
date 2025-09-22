@@ -3,6 +3,7 @@ package com.example.wiki.todo.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.example.wiki.todo.dto.TodoDto;
 
@@ -26,6 +27,11 @@ public interface TodoMapper {
      * @return
      */
     void updateTodo(TodoDto todoDto);
-
+    
+    /**
+     * Todo更新（完了↔未完了）
+     * @return
+     */
+    void updatePriorities(@Param("todoDto") List<TodoDto> todoDto);
     }
 
