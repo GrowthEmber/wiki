@@ -26,18 +26,18 @@
         <li class="todo-item">
           <input
             type="checkbox"
-            :checked="todo.completed"
-            @change="toggleCompleted(todo)"
+            :checked="todo.status === '2'"
           />
-          <span :class="{ completed: todo.completed }" class="todo-title">
+          <span :class="{ completed: todo.status === '2' }" class="todo-title">
             {{ todo.title }}
           </span>
           <span class="priority-badge">優先度: {{ todo.priority }}</span>
           <span
-            :class="todo.completed ? 'status-complete' : 'status-incomplete'"
+            :class="getStatusClass(todo.status)"
             class="status-badge"
+            @click="toggleCompleted(todo)"
           >
-            {{ todo.completed ? '完了' : '未完了' }}
+            {{ getStatusLabel(todo.status) }}
           </span>
         </li>
       </template>
@@ -46,7 +46,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import draggable from 'vuedraggable'
 
@@ -61,15 +61,16 @@ onMounted(async () => {
   displayFlag.value = true
 })
 
-// Todo取得（未完了→完了、優先度順）
+// Todo取得（未着手→進行中→完了、優先度順）
 const fetchTodos = async () => {
   const res = await axios.get('http://localhost:9090/api/todos')
-  todos.value = res.data.sort((a, b) => {
-    if (a.completed === b.completed) {
-      return a.priority - b.priority
-    }
-    return a.completed - b.completed
-  })
+  todos.value = res.data
+//  .sort((a, b) => {
+//    if (a.status === b.status) {
+//      return a.priority - b.priority
+//    }
+//    return a.status.localeCompare(b.status)
+//  })
 }
 
 // 新規登録
@@ -87,7 +88,7 @@ const addTodo = async () => {
 
     await axios.post('http://localhost:9090/api/todos/insert', {
       title: newTitle.value,
-      completed: false,
+      status: "0", // 未着手
       priority: maxPriority + 1
     })
     await fetchTodos()
@@ -98,9 +99,14 @@ const addTodo = async () => {
   }
 }
 
-// 完了切替
+// ステータス切替
 const toggleCompleted = async (todo) => {
-  const updated = { ...todo, completed: !todo.completed }
+  let nextStatus = "0"
+  if (todo.status === "0") nextStatus = "1"
+  else if (todo.status === "1") nextStatus = "2"
+  else if (todo.status === "2") nextStatus = "0"
+
+  const updated = { ...todo, status: nextStatus }
   try {
     await axios.put(`http://localhost:9090/api/todos/${todo.id}`, updated)
     await fetchTodos()
@@ -126,7 +132,24 @@ const onDragEnd = async () => {
     alert('並び順の更新に失敗しました')
   }
 }
+
+// ステータスラベル
+const getStatusLabel = (status) => {
+  if (status === "0") return "未着手"
+  if (status === "1") return "進行中"
+  if (status === "2") return "完了"
+  return "不明"
+}
+
+// ステータスに応じたclass
+const getStatusClass = (status) => {
+  if (status === "0") return "status-not-started"
+  if (status === "1") return "status-in-progress"
+  if (status === "2") return "status-complete"
+  return ""
+}
 </script>
+
 
 <style>
 .container {
@@ -206,21 +229,28 @@ const onDragEnd = async () => {
   font-size: 12px;
 }
 
-.status-incomplete {
-  background-color: #fff9c4;
-  color: #7a6000;
+.status-not-started {
+  background-color: #ffcdd2; /* 薄い赤 */
+  color: #b71c1c;            /* 濃い赤 */
   padding: 4px 8px;
   border-radius: 12px;
   font-size: 12px;
 }
 
-.priority-badge {
-  background-color: #e0f7fa;
-  color: #006064;
-  padding: 2px 6px;
-  border-radius: 8px;
+.status-in-progress {
+  background-color: #fff9c4; /* 薄い黄色 */
+  color: #f57f17;            /* 濃いオレンジ */
+  padding: 4px 8px;
+  border-radius: 12px;
   font-size: 12px;
-  margin-left: 10px;
+}
+
+.status-complete {
+  background-color: #c8e6c9; /* 薄い緑 */
+  color: #256029;            /* 濃い緑 */
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
 }
 
 .list-move {
