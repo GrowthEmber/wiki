@@ -21,7 +21,7 @@ public class TodoController {
     public ModelAndView todos(ModelAndView mv) {
         
         // Todoリスト全件検索処理呼び出し
-        List<TodoDto> todoDtoList = todoService.getAllTodoListSortedByCompleted();
+        List<TodoDto> todoDtoList = todoService.getAllTodoListSortedByPriority();
         
         // 画面返却項目設定
         mv.addObject("todoList", todoDtoList);

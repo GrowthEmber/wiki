@@ -23,7 +23,7 @@ public class TodoRestController {
 
     @GetMapping
     public List<TodoDto> getTodos() {
-        return todoService.getAllTodoListSortedByCompleted();
+        return todoService.getAllTodoListSortedByPriority();
     }
 
     @PostMapping("/insert")
