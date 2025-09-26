@@ -296,7 +296,9 @@ const getStatusClass = (status) => {
 }
 
 /* タブレット (601px〜1023px) */
-@media (min-width: 601px) and (max-width: 1023px) {
+@media (min-width: 601px)
+ /* and (max-width: 1023px) */
+ {
   .container {
     margin: 0 auto;
     max-width: 90%;
@@ -321,10 +323,10 @@ const getStatusClass = (status) => {
 }
 
 /* PC (1024px〜) */
-@media (min-width: 1024px) {
+/* @media (min-width: 1024px) {
   .container {
     margin: 0 auto;
-    max-width: 1000px;
+    max-width: 90%;
     padding: 16px;
   }
 
@@ -348,6 +350,6 @@ const getStatusClass = (status) => {
 
   .item-left { grid-column: 1 / span 2; }
   .item-right { grid-column: 3 / span 2; }
-}
+} */
 
 </style>
