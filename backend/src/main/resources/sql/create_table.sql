@@ -1,5 +1,5 @@
 -- スキーマ作成（存在しない場合のみ）
-CREATE SCHEMA IF NOT EXISTS app AUTHORIZATION ${DB_USER};
+CREATE SCHEMA IF NOT EXISTS app AUTHORIZATION todo_db_a9qv_user;
 
 -- Todoテーブル
 CREATE TABLE IF NOT EXISTS todos (
