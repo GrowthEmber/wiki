@@ -63,7 +63,7 @@ onMounted(async () => {
 
 // Todo取得（未着手→進行中→完了、優先度順）
 const fetchTodos = async () => {
-  const res = await api.get('api/todos')
+  const res = await api.get('https://wiki-1-ezu9.onrender.com/api/todos')
   todos.value = res.data
 //  .sort((a, b) => {
 //    if (a.status === b.status) {
@@ -86,7 +86,7 @@ const addTodo = async () => {
       ? Math.max(...todos.value.map(t => t.priority))
       : 0
 
-    await api.post('/api/todos/insert', {
+    await api.post('https://wiki-1-ezu9.onrender.com/api/todos/insert', {
       title: newTitle.value,
       status: "0", // 未着手
       priority: maxPriority + 1
@@ -108,7 +108,7 @@ const toggleCompleted = async (todo) => {
 
   const updated = { ...todo, status: nextStatus }
   try {
-    await api.put(`/api/todos/${todo.id}`, updated)
+    await api.put(`https://wiki-1-ezu9.onrender.com/api/todos/${todo.id}`, updated)
     await fetchTodos()
   } catch (error) {
     console.error(error)
@@ -126,7 +126,7 @@ const onDragEnd = async () => {
     }))
     todos.value = updatedTodos
     // バックエンドに一括更新
-    await api.put('/api/todos/reorder', updatedTodos)
+    await api.put('https://wiki-1-ezu9.onrender.com/api/todos/reorder', updatedTodos)
   } catch (error) {
     console.error(error)
     alert('並び順の更新に失敗しました')
