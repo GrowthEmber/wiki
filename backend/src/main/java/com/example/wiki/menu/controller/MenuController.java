@@ -25,4 +25,10 @@ public class MenuController {
         mv.setViewName("menu/menu");
         return mv;
     }
+
+    // Vue SPA の画面
+    @RequestMapping({"/todos", "/todos/new"})
+    public String vueForward() {
+        return "forward:/index.html"; // frontend/dist/index.html を返す
+    }
 }
