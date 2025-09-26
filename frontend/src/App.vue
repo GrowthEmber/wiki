@@ -1,5 +1,5 @@
 <template>
-<div id="app">
+  <div>
     <nav>
       <router-link to="/todos"></router-link>
     </nav>
