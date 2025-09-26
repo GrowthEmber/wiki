@@ -1,7 +1,7 @@
 <template>
 <div id="app">
     <nav>
-      <router-link to="/todos">Todo一覧</router-link>
+      <router-link to="/todos"></router-link>
     </nav>
     <router-view />
   </div>
