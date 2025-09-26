@@ -13,7 +13,7 @@ public class WebConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")  // 全てのエンドポイント
+                registry.addMapping("/api/**")  // 全てのエンドポイント
                         .allowedOrigins("http://localhost:5173")  // Vue 開発サーバー
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
             }
