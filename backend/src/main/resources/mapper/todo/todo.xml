@@ -21,7 +21,7 @@
     <!-- Todo1件登録 -->
     <insert id="insertTodo">
         INSERT INTO app.todos (title, priority, status) 
-        VALUES (#{title}, #{priotiry}, #{status}) RETURNING id
+        VALUES (#{title}, #{priority}, #{status}) RETURNING id
     </insert>
     
     <!-- Todo更新（完了↔未完了） -->
